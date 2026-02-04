@@ -10,7 +10,7 @@ alembic==1.12.1  # Migrations
 
 # Computer Vision
 opencv-python==4.8.1.78
-pillow==10.1.0
+pillow>=10.2.0  # FIXED: facenet-pytorch requires >=10.2.0
 
 # Deep Learning
 torch==2.1.0
@@ -39,3 +39,4 @@ flake8==6.1.0
 
 # CORS
 fastapi-cors==0.0.6
+
