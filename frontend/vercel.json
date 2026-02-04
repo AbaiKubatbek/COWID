@@ -1,6 +1,15 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": "react",
-  "nodeVersion": "18.x"
+  "framework": "vite",
+  "nodeVersion": "18.x",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "VITE_API_URL": "@vite_api_url"
+  }
 }
