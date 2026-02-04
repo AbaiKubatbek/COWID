@@ -10,18 +10,18 @@ alembic==1.12.1  # Migrations
 
 # Computer Vision
 opencv-python==4.8.1.78
-pillow>=10.2.0  # FIXED: facenet-pytorch requires >=10.2.0
+pillow>=10.2.0
 
-# Deep Learning
-torch==2.1.0
-torchvision==0.16.0
-ultralytics==8.0.203  # YOLOv8
+# Deep Learning (UPDATED for compatibility)
+torch==2.2.0  # facenet-pytorch 2.6.0 requires >=2.2.0
+torchvision==0.17.0  # Compatible with torch 2.2
+ultralytics==8.0.203
 
 # Face Recognition
 facenet-pytorch==2.6.0
 scikit-learn==1.3.2
 scipy==1.11.4
-numpy==1.24.3
+numpy>=1.24.3
 
 # API & Utils
 pydantic==2.5.0
