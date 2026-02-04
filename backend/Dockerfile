@@ -3,23 +3,26 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Установка системных зависимостей
+# Установка системных зависимостей для OpenCV
 RUN apt-get update && apt-get install -y \
-    libsm6 libxext6 libxrender-dev \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
 # Копируем requirements и устанавливаем зависимости
-COPY requirements.txt .
+COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Копируем приложение
-COPY app ./app
+COPY backend/app ./app
 
 # Создаём папку для uploads
 RUN mkdir -p uploads
 
-# Exponemos puerto
+# Expose port
 EXPOSE 8000
 
-# Запускаем приложение
+# Start the application
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
