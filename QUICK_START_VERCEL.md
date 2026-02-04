@@ -35,28 +35,38 @@ npm run build
 
 ---
 
-#### 3️⃣ Vercel Deploy (2 мин)
+#### 3️⃣ Netlify Deploy (2 мин)
+
+**Способ 1: Через интерфейс (самый простой)**
+
+1. Перейти на [https://app.netlify.com](https://app.netlify.com)
+2. Нажать **"Add new site"** → **"Deploy manually"**
+3. Перетащить папку **`dist/`** или нажать выбрать
+4. Готово! Получишь URL типа `https://cowid-123456.netlify.app`
+
+**Способ 2: Через Netlify CLI (если установлена)**
 
 ```bash
 cd C:\Users\user\Desktop\CowID\frontend
 
-# Если первый раз
-vercel login
+# Первый раз (если не установлена)
+npm install -g netlify-cli
+
+# Залогиниться
+netlify login
 
 # Развернуть
-vercel --prod
-
-# Результат: https://cowid-frontend.vercel.app (или твой URL)
+netlify deploy --prod --dir=dist
 ```
 
-✅ **Результат:** Приложение на Vercel с HTTPS
+✅ **Результат:** Приложение на Netlify с автоматическим HTTPS
 
 ---
 
 ## 📱 На мобильном
 
 ```
-1. Открыть: https://cowid-frontend.vercel.app
+1. Открыть: https://cowid-xxxxx.netlify.app
 2. Нажать: "📷 Открыть камеру"
 3. Разрешить доступ к камере
 4. Снять фото коровы

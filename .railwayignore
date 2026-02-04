@@ -1,0 +1,8 @@
+start.sh
+.venv/
+.env.local
+uploads/
+*.db
+.DS_Store
+.pytest_cache/
+cows.db
