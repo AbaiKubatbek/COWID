@@ -10,7 +10,7 @@ load_dotenv()
 # Используем SQLite для development, PostgreSQL для production
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "sqlite:///./cows.db"
+    "sqlite:///./cows.db"  # Railway автоматически создаст PostgreSQL если нужно
 )
 
 # Для PostgreSQL используйте:
@@ -28,11 +28,10 @@ API_TITLE = "CowID - Система распознавания лиц коров
 API_VERSION = "1.0.0"
 
 # ========== CORS ==========
-ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:5173",  # Vite default
-    "http://127.0.0.1:3000",
-]
+ALLOWED_ORIGINS = os.getenv(
+    "CORS_ORIGINS",
+    "http://localhost:3000,http://localhost:5173,http://127.0.0.1:3000,https://cowidentity.netlify.app"
+).split(",")
 
 # ========== SECURITY ==========
 SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-change-in-production")

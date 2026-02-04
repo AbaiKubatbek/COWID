@@ -81,9 +81,11 @@ def health_check():
 @app.on_event("startup")
 async def startup_event():
     """Событие при запуске приложения"""
-    logger.info("🚀 CowID Backend запущен")
+    port = os.getenv("PORT", "8000")
+    environment = "Railway" if "PORT" in os.environ else "Local"
+    logger.info(f"🚀 CowID Backend запущен на {environment} (port={port})")
     logger.info(f"📚 API документация доступна на /docs")
-    logger.info(f"🐄 Готово к распознаванию коов!")
+    logger.info(f"🐄 Готово к распознаванию коров!")
 
 
 @app.on_event("shutdown")
@@ -94,10 +96,18 @@ async def shutdown_event():
 
 if __name__ == "__main__":
     import uvicorn
+    
+    # Определяем port - Railway передает через переменную окружения PORT
+    port = int(os.getenv("PORT", 8000))
+    
+    # Определяем режим - если PORT установлена, то production (Railway)
+    is_production = "PORT" in os.environ
+    reload_mode = not is_production  # reload только в development
+    
     uvicorn.run(
         "app.main:app",
         host="0.0.0.0",
-        port=8000,
-        reload=True,
+        port=port,
+        reload=reload_mode,
         log_level="info"
     )
