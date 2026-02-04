@@ -1,18 +1,18 @@
-# Lightweight Mock API for CowID Demo
-FROM python:3.11-slim
+# Ultra-lightweight Mock API for CowID Demo
+FROM python:3.11-alpine
 
 WORKDIR /app
 
-# Install minimal system dependencies
-RUN apt-get update && apt-get install -y \
-    libsm6 \
-    libxext6 \
-    && rm -rf /var/lib/apt/lists/*
+# Install minimal build dependencies
+RUN apk add --no-cache --virtual .build-deps \
+    gcc \
+    g++ \
+    && pip install --no-cache-dir --upgrade pip
 
-# Copy and install Python dependencies (lightweight)
+# Copy and install Python dependencies
 COPY backend/requirements-mock.txt .
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements-mock.txt
+RUN pip install --no-cache-dir -r requirements-mock.txt && \
+    apk del .build-deps
 
 # Copy mock API
 COPY backend/main_mock.py ./main.py
@@ -20,12 +20,8 @@ COPY backend/main_mock.py ./main.py
 # Create uploads directory
 RUN mkdir -p uploads
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
-
 # Expose port
 EXPOSE 8000
 
 # Run mock API
-CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "info"]
+CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
