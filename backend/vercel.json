@@ -1,0 +1,9 @@
+{
+  "buildCommand": "pip install -r requirements.txt",
+  "framework": "python",
+  "pythonVersion": "3.11",
+  "env": {
+    "DATABASE_URL": "@DATABASE_URL",
+    "ENVIRONMENT": "production"
+  }
+}

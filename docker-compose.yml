@@ -1,0 +1,57 @@
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: cowid-db
+    environment:
+      POSTGRES_USER: cowid_user
+      POSTGRES_PASSWORD: cowid_password
+      POSTGRES_DB: cowid_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - cowid-network
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cowid-backend
+    environment:
+      DATABASE_URL: postgresql://cowid_user:cowid_password@db:5432/cowid_db
+      DETECTION_CONFIDENCE: 0.5
+      RECOGNITION_CONFIDENCE: 0.6
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    volumes:
+      - ./backend/uploads:/app/uploads
+    networks:
+      - cowid-network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cowid-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      VITE_API_URL: http://backend:8000/api
+    networks:
+      - cowid-network
+
+volumes:
+  postgres_data:
+
+networks:
+  cowid-network:
+    driver: bridge
